@@ -1,0 +1,31 @@
+####
+# Example input for MCMLpar program. 
+# Length scale is mm.
+####
+
+# Simulation Parameters:
+
+500000			# Number of particles (photons)
+36			# Number of Angle-Resolved Scattering points
+4			# Number of processors
+669.8			# Radius of detector in mm (enter large number to neglect finite radius)
+
+# Material Parameters:
+
+2			# Number of layers
+
+# Layer 1:
+
+1.5			# Index of refraction (n)
+0.75			# Anisotropy (g)
+5.0			# Thickness (t) in mm
+0.01			# Attenuation coefficient (mua) in inverse mm
+3.0			# Scattering coefficient (mus) in inverse mm
+
+# Layer 2:
+
+1.2			# Index of refraction (n)
+0.6			# Anisotropy (g)
+2.0			# Thickness (t) in mm
+0.02			# Attenuation coefficient (mua) in inverse mm
+2.0			# Scattering coefficient (mus) in inverse mm
