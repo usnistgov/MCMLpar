@@ -26,7 +26,7 @@ bool setParameters( vector<Layer>& layerVec, unsigned int& numParticles, unsigne
 
     ifstream paramFile( "dataIn/input.txt" );
     unsigned int numLayers;
-    double nVal, gVal, zMax, muaVal, musVal;
+    double nVal, gVal, t, muaVal, musVal;
     string line;
     stringstream l;
 
@@ -64,13 +64,14 @@ bool setParameters( vector<Layer>& layerVec, unsigned int& numParticles, unsigne
         for ( unsigned int i = 0; i < numLayers; i++ ) {
             l >> nVal;
             l >> gVal;
-            l >> zMax;
+            l >> t;
             l >> muaVal;
             l >> musVal;
-            layerVec.at(i) = Layer( nVal, musVal, muaVal, gVal, zMax );
+            layerVec.at(i) = Layer( nVal, musVal, muaVal, gVal, t );
             layerVec.at(i).setLayerNum(i);
             if ( i > 0 ) {
                 layerVec.at(i).setZMin( layerVec.at(i-1).getZMax() );
+                layerVec.at(i).setZMax( layerVec.at(i).getZMin() + t );
             }
         }
     }
