@@ -9,4 +9,5 @@ using namespace std;
 
 #pragma once
 
-bool setParameters( vector<Layer>&, unsigned int&, unsigned int&, unsigned int&, double& );
+bool setParameters( vector<Layer>&, unsigned int&, unsigned int&,
+    unsigned int&, int&, double& );

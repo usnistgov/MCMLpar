@@ -1,26 +1,30 @@
 MCMLpar: Parallelized Monte Carlo: Multi Layer
 Version 1.0
-July 2017
+4 August 2017
 
-National Institute of Science and Technology
-Gaithersburg, Maryland
 
 Written by:	
 Richelle Streater, Colorado School of Mines, NIST SURF Student
 Anne-Michelle Lieberson, Sherwood High School, NIST SHIP Student
-Zachary Levine, National Institute of Standards and Technology
+Adam Pintar, National Institute of Standards and Technology, Gaithersburg, Maryland
+Zachary Levine, National Institute of Standards and Technology, Gaithersburg, Maryland
 	
-With help from Adam Pintar
 Experimental data provided by Catherine Cooksey and Paul Lemaillet 
+
+To display in vim:
+:set linebreak
 
 
 I. Overview
 
 A. Program details
 
-Language: C++ (2011 or 2014)/OpenMP, Mathematica for Post-Processing
+Language: C++ (0x and beyond)/OpenMP, Mathematica for Post-Processing (optional)
 Contact details: zlevine@nist.gov
 Companion program: MCSLinv [1, 2]. MCSLinv is a program which solves for the scattering parameters, mua and mus, of a single layer.
+Compilers used:
+  Windows: mingw32-g++ with compiler flags: -O3 -fopenmp -std=c++0x
+  Linux: g++ version 4.4.7 20120313 (Red Hat 4.4.7-18) (GCC) with compiler flags -O3 -std=c++0x -fopenmp -DSPRNGFIVE
 
 B. Summary:
 
@@ -42,9 +46,15 @@ mut- inverse interaction length for either absorption or scattering (total)
 
 B. Input files:
 
-1. input.txt: This file contains all user-defined parameter inputs. The simulation inputs are number of particles, number of ARS points, number of processors, and radius of detector. For an infinite radius approximation, or if the detector radius is unknown, set radius to some large value (like 10000000). The user may need to change number of particles to attain more precise or less precise results. The user should change the number of processors according to the computer’s capabilities. The user should also specify all material parameters. Copy and paste the layer block of text to add more layers and update the “number of layers” entry.
+1. input.txt: This file contains all user-defined parameter inputs. The
+simulation inputs are number of particles, number of ARS points, number of
+processors, and radius of detector. For an infinite radius approximation, or if
+the detector radius is unknown, set radius to some large value (such as 10000000).
+The user may need to change number of particles to attain more precise or less
+precise results. The user should change the number of processors to match those
+of the computer.  The user should also specify all material parameters. Copy and paste the layer block of text to add more layers and update the number of layers entry.
 
-2. inputExample.txt: This is an example input. With this input, the program should run for 1-5 minutes and should output an ARS curve close to the curve described in MCMLparOutputExample.csv.
+2. inputExample.txt: This is an example input. With this input, the program should run for 10-60 seconds and should output the data in MCMLparOutputExampleS2.csv or MCMLparOutputExampleS5.csv, depending on which version of SPRNG is used.
 
 C. Output files:
 
@@ -52,17 +62,19 @@ C. Output files:
 
 2. MCMLparOutput.nb: This Mathematica notebook will use output.csv (if it has been renamed, it will need to be changed by hand in the notebook). The notebook will plot the output ARS curve.
 
-3. MCMLparOutputExample.csv: This is an example output file. The program should output data very close to this if the input file is inputExample.txt.
+3. MCMLparOutputExampleS2.csv: Example output file. The program should output this file (possible speed change) if the input file is inputExample.txt and the SPRNG library is SPRNG 2.0b.
+
+3. MCMLparOutputExampleS5.csv: Example output file. The program should output this file (possible speed change) if the input file is inputExample.txt and the SPRNG library is SPRNG 5.0.
 
 D. External packages:
 
-1. SPRNG 2.0b: This is the best version of SPRNG to download for Windows, since a Windows package is available from NAADSM [4]. SPRNG 2.0b is also available for Linux and Mac [5]. SPRNG 2.0b is the default; no additional flags are necessary. libsprng.a or some other SPRNG library must be linked.
+1a. SPRNG 2.0b: This is the best version of SPRNG to download for Windows, since a Windows package is available from NAADSM [4]. SPRNG 2.0b is also available for Linux and Mac [5]. SPRNG 2.0b is the default; no additional flags are necessary. libsprng.a or some other SPRNG library must be linked.
 
-2. SPRNG 5.0: Linux and Mac users may wish to download the latest version of SPRNG [5]. The flag “-D SPRNGFIVE” must be used if the user has SPRNG 5.0 instead of SPRNG 2.0b.
+1b. SPRNG 5.0: Linux and Mac users may wish to download the latest version of SPRNG [5]. The flag -DSPRNGFIVE must be used if the user has SPRNG 5.0 instead of SPRNG 2.0b.
 
-3. OpenMP: The code uses OpenMP for parallelization. OpenMP can generally be downloaded with MinGW. The OpenMP library must be linked and the flag -fopenmp must be included.
+2. OpenMP: The code uses OpenMP for parallelization. OpenMP can generally be downloaded with MinGW. The OpenMP library must be linked and the flag -fopenmp must be included.
 
-4. MinGW libraries: The following libraries must be in the same directory as the .exe for it to work: libgomp-1.dll, libstdc++-6.dll, and libgcc_s_dw2-1.dll. These are provided with the .exe, and can be found at: http://www.mingw.org/
+3. MinGW libraries: The following libraries must be in the same directory as the .exe for it to work: libgomp-1.dll, libstdc++-6.dll, and libgcc_s_dw2-1.dll. These are provided with the .exe, and can be found at: http://www.mingw.org/
 
 
 III. Program contents
@@ -71,8 +83,9 @@ A. Directories:
 
 1. bin: Contains executable program
 2. dataIn: Contains user input files
-3. dataOut: Contains output files and a Mathematica notebook to graph results.
-4. obj: Contains .o files
+           User should keep the example file and change input.txt
+3. dataOut: Contains output files and Mathematica notebooks to graph results.
+           Example files:  S2 from SPRNG2 (Windows) and S5 from SPRNG5 (Linux)
 
 
 IV. Design
@@ -106,17 +119,17 @@ A. Possible program errors:
 
 2. "Error: x actual out of y wanted streams spawned!": This means that the parallelization did not work. It is possible that something went wrong with SPRNG, or the user must change numProc in the input file.
 
-3. Compiler not recognizing nullptr or initialization lists: User must use a compiler that is compatible with C++ 2011 or C++ 2014.
+3. Compiler not recognizing vector class: User must use a compiler that is compatible with C++ 0x or beyond.
 
 
 VI. Works Cited:
 
-[1]    Z.H. Levine, R.H. Streater, A.-M. R. Lieberson, A.L. Pintar, C.C. Cooksey, and P. Lemaillet, “Algorithm for Rapid Determination of Optical Scattering Parameters”, unpublished.
+[1]    Z.H. Levine, R.H. Streater, A.-M. R. Lieberson, A.L. Pintar, C.C. Cooksey, and P. Lemaillet, Algorithm for Rapid Determination of Optical Scattering Parameters, unpublished.
 
-[2]    R.H Streater, A-M. R. Lieberson, A.L. Pintar, Z.H. Levine, “MCMLpar and MCSLinv: Parallel MCML and an Inverse Monte Carlo Algorithm to Calculate Optical Scattering Parameters”, unpublished
+[2]    R.H Streater, A-M. R. Lieberson, A.L. Pintar, Z.H. Levine, MCMLpar and MCSLinv: Parallel MCML and an Inverse Monte Carlo Algorithm to Calculate Optical Scattering Parameters, unpublished
 
-[3]    L. Wang, S.L. Jacques, L. Zheng, “MCML-Monte Carlo modeling of light transport in multi layered tissues”, Computer Methods and Programs in Biomedicine 47, 1995, pp. 131-146.
+[3]    L. Wang, S.L. Jacques, L. Zheng, MCML-Monte Carlo modeling of light transport in multi layered tissues, Computer Methods and Programs in Biomedicine 47, 1995, pp. 131-146.
 
-[4]    NAADSM Development Team, “SPRNG for Microsoft Windows and NAADSM”, http://www.naadsm.org/opensource/sprng, 2013, accessed 28 July 2017.
+[4]    NAADSM Development Team, SPRNG for Microsoft Windows and NAADSM, http://www.naadsm.org/opensource/sprng, 2013, accessed 28 July 2017.
 
-[5]    M. Mascagni, A. Srinivasan, “Algorithm 806: SPRNG: a scalable library for pseudorandom number generation”, ACM Transactions on Mathematica Software 26, 2000, pp. 436-461; http://sprng.org, accessed 28 July 2017.
+[5]    M. Mascagni, A. Srinivasan, Algorithm 806: SPRNG: a scalable library for pseudorandom number generation, ACM Transactions on Mathematica Software 26, 2000, pp. 436-461; http://sprng.org, accessed 28 July 2017.

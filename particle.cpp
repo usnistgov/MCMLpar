@@ -48,8 +48,14 @@ Particle::Particle () {
 
 /* Reset function: creates new particle for beginning of main loop. */
 void Particle::reset( double T ) {
-    rVec = {0,0,0};
-    dir = {0,0,1};
+    rVec.at(0) = 0;
+    rVec.at(1) = 0;
+    rVec.at(2) = 0;
+
+    dir.at(0) = 0;
+    dir.at(1) = 0;
+    dir.at(2) = 1;
+
     weight = T;
 }
 

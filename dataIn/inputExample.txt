@@ -7,7 +7,8 @@
 
 500000			# Number of particles (photons)
 36			# Number of Angle-Resolved Scattering points
-4			# Number of processors
+1			# Number of processors
+24                      # seedIn: seed for random number generator. To seed with time(0), type 0.
 669.8			# Radius of detector in mm (enter large number to neglect finite radius)
 
 # Material Parameters:

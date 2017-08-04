@@ -14,8 +14,7 @@ so that the program will close if there is a problem. */
     numParticles: number of particles or photons for simulation
     numDiv: The number of points to score in the ARS vector
     numProc: Number of processors to use (parallelization)
-    seedIn: Seed for random number generator
-    layerVec: The vector of layers for the entire medium
+    layerVec: The vector of layers for the entire medium.
     numLayers: Number of layers in the material
     nVal, gVal, zMax, muaVal, musVal: Parameters of the medium
     radius: Radius of detector (in experiment)
@@ -23,8 +22,8 @@ so that the program will close if there is a problem. */
 
 /******************************************************************************/
 
-bool setParameters( vector<Layer>& layerVec, unsigned int& numParticles, unsigned int& numDiv,
-    unsigned int& numProc, int& seedIn, double& radius ){
+bool setParameters( vector<Layer>& layerVec, unsigned int& numParticles,
+     unsigned int& numDiv, unsigned int& numProc, int& seedIn, double& radius ){
 
     ifstream paramFile( "dataIn/input.txt" );
     unsigned int numLayers;
@@ -40,7 +39,7 @@ bool setParameters( vector<Layer>& layerVec, unsigned int& numParticles, unsigne
             /* Ignore lines that start with # or that have no contents */
                 /* Ignore all line contents beyond tab or # */
             if ( ( line[0] != '#' ) && ( line.size()>0 ) ) {
-                for ( unsigned int i=0; i < line.size(); i++ ) {
+                for (int i=0; i<line.size(); i++) {
                     if ( ( line[i] == '\t' ) || ( line[i] == '#' ) ) {
                         line.resize(i);
                         break;

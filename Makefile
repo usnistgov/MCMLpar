@@ -1,7 +1,8 @@
 # User must select SPRNG 5 options or SPRNG 2 options by uncommenting.
+# User must customize home directories by hand.
 #
 CPP = g++
-CPPFLAGS_ALL = -std=c++0x -fopenmp
+CPPFLAGS_ALL = -O3 -std=c++0x -fopenmp
 INCLUDE_EIGEN = -I/home/zlevine/Code/Eigen/eigen-eigen-5a0156e40feb/Eigen/
 ################################################################################
 #               SPRNG 5 OPTIONS
@@ -11,7 +12,7 @@ INCLUDE_EIGEN = -I/home/zlevine/Code/Eigen/eigen-eigen-5a0156e40feb/Eigen/
 ################################################################################
 #               SPRNG 2 OPTIONS
 # INCLUDE_SPRNG = -I/home/zlevine/Code/SPRNG/Sprng2.0b/sprng2.0/include/
-# LIB      = -L/home/zlevine/Code/SPRNG/Sprng2.0b/sprng2.0/lib/
+# LIB           = -L/home/zlevine/Code/SPRNG/Sprng2.0b/sprng2.0/lib/
 ################################################################################
 
 CPPFLAGS = ${CPPFLAGS_ALL} ${CPPFLAGS_SPRNG}
@@ -36,11 +37,11 @@ updateInterval.o \
 weight.o
 
 
-MCSLinv.x : ${OBJ}
+MCMLpar.x : ${OBJ}
 	${CPP} -o $@ ${CPPFLAGS} ${OBJ} ${INCLUDE} ${LIB} -lsprng
 
 %.o : %.cpp
 	${CPP} -c ${CPPFLAGS} ${INCLUDE} $<
 
 clean :
-	rm -f MCSLinv.x ${OBJ}
+	rm -f MCMLpar.x ${OBJ}

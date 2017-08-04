@@ -19,6 +19,7 @@ boundary, and detect, until the particle escapes or vanishes in the material. */
     numParticles: Number of particles to send through medium
     numDiv: Number of points or elements in ARS vector
     numProc: Number of processors to use (parallelization)
+    seedIn, seed:  seed for random number generator.  If seedIn==0, the time is used.
     radius: Radius of detector
     layerVec: Vector holding parameters for all layers in the material
     T: Specular transmission, particles that initially make it into the medium
@@ -29,26 +30,33 @@ int main() {
 
 /**********************  Inputs and Initialization  ***************************/
     /* Read in experimental data, set parameters from file. */
+    int time0 = time( NULL ), seedIn, seed;
     unsigned int numParticles, numProc, numDiv, timeCount;
     double radius;
     vector<Layer> layerVec;
     Layer layAir;
 
     /* Quit the program if there is an input error. */
-    if ( !setParameters( layerVec, numParticles, numDiv, numProc, radius ) ) {
+    if ( !setParameters( layerVec, numParticles, numDiv, numProc, seedIn, radius ) ) {
         return 1;
     }
+
     numDiv *= 2;
-    int time_0 = time( NULL );
+    if ( seedIn == 0 ) {
+       seed = time0;
+    }
+    else {
+       seed = seedIn;
+    }
 
     /* Seed the random number generator, depending on which version of
     SPRNG is present. */
-    #ifdef SPRNGFIVE
+#ifdef SPRNGFIVE
     int gtype = 2;
     /* Seed the RNG */
     Sprng *stream, **sprngptrarr;
     stream = SelectType(gtype);
-    stream->init_sprng(0, 1, 24, SPRNG_DEFAULT);
+    stream->init_sprng(0, 1, seed, SPRNG_DEFAULT);
 
     unsigned int nspawned = stream->spawn_sprng(numProc,&sprngptrarr);
 
@@ -57,12 +65,12 @@ int main() {
         return 1;
     }
 
-    #else
+#else
     int **sprngptrarr;
-    if ( !initSPRNG( numProc, &sprngptrarr, time_0 ) ) {
+    if ( !initSPRNG( numProc, &sprngptrarr, seed ) ) {
         return 1;
     }
-    #endif
+#endif
 
     /* Initialize variables */
 
@@ -120,17 +128,19 @@ int main() {
             }
             }
         }
-
-        /* Add together parallel solutions to attain total ARS */
-        for ( unsigned int p = 0; p < numProc; p++ ) {
-            addVec( ars, arsProc.at(p) );
-        }
     }
+
+    /* Add together parallel solutions to attain total ARS */
+    for ( unsigned int p = 0; p < numProc; p++ ) {
+        addVec( ars, arsProc.at(p) );
+    }
+
     /* Match ars format to experimental data, which shifts by half of an angle division. */
     fixARS( ars, numParticles );
 
 /******************  End of forward Monte Carlo simulation  *******************/
-    timeCount = time(0) - time_0;
+
+    timeCount = time(0) - time0;
     dataOut( ars, timeCount );
 
     sprngptrarr = NULL;
