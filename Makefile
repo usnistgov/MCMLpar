@@ -3,7 +3,6 @@
 #
 CPP = g++
 CPPFLAGS_ALL = -O3 -std=c++0x -fopenmp
-INCLUDE_EIGEN = -I/home/zlevine/Code/Eigen/eigen-eigen-5a0156e40feb/Eigen/
 ################################################################################
 #               SPRNG 5 OPTIONS
  CPPFLAGS_SPRNG = -DSPRNGFIVE
@@ -16,25 +15,20 @@ INCLUDE_EIGEN = -I/home/zlevine/Code/Eigen/eigen-eigen-5a0156e40feb/Eigen/
 ################################################################################
 
 CPPFLAGS = ${CPPFLAGS_ALL} ${CPPFLAGS_SPRNG}
-INCLUDE = ${INCLUDE_SPRNG} ${INCLUDE_EIGEN}
+INCLUDE = ${INCLUDE_SPRNG}
 
 OBJ = addVec.o \
 boundary.o \
-checkEigenVals.o constructA.o contour.o \
-dataOut.o discMax.o detect.o dotProd.o \
-evalMaxGrid.o \
-fixARS.o fileToVec.o findRegion.o \
+dataOut.o detect.o dotProd.o \
+fixARS.o \
 HGDist.o \
 initSPRNG.o intersect.o \
-layer.o leastSquares.o likelihood.o \
+layer.o likelihood.o \
 main.o medInterface.o \
 newSegSize.o \
 particle.o propagate.o \
 roulette.o \
-scatter.o scattFunction.o scoreParam.o searchRegion.o \
-setParameters.o solveForMax.o specularR.o subFromMax.o \
-updateInterval.o \
-weight.o
+scatter.o scattFunction.o scoreParam.o setParameters.o specularR.o
 
 
 MCMLpar.x : ${OBJ}

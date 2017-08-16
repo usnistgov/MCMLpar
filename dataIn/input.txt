@@ -8,25 +8,17 @@
 500000			# Number of particles (photons)
 36			# Number of Angle-Resolved Scattering points
 1			# Number of processors
-24                      # seedIn: seed for random number generator. To seed with time(0), type 0.
+12                      # seedIn: seed for random number generator. To seed with time(0), type 0.
 669.8			# Radius of detector in mm (enter large number to neglect finite radius)
 
 # Material Parameters:
 
-2			# Number of layers
+1			# Number of layers
 
 # Layer 1:
 
 1.5			# Index of refraction (n)
-0.75			# Anisotropy (g)
-5.0			# Thickness (t) in mm
-0.01			# Attenuation coefficient (mua) in inverse mm
-3.0			# Scattering coefficient (mus) in inverse mm
-
-# Layer 2:
-
-1.2			# Index of refraction (n)
-0.6			# Anisotropy (g)
-2.0			# Thickness (t) in mm
-0.02			# Attenuation coefficient (mua) in inverse mm
-2.0			# Scattering coefficient (mus) in inverse mm
+0.621			# Anisotropy (g)
+6.10			# Thickness (t) in mm
+0.10			# Attenuation coefficient (mua) in inverse mm
+1.0			# Scattering coefficient (mus) in inverse mm

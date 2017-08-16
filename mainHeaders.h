@@ -1,7 +1,6 @@
 #include "addVec.h"
 #include "boundary.h"
 #include "detect.h"
-#include "fileToVec.h"
 #include "fixARS.h"
 #include "initSPRNG.h"
 #include "layer.h"
@@ -13,7 +12,6 @@
 #include "setParameters.h"
 #include "specularR.h"
 #include "subFromMax.h"
-#include "updateInterval.h"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
