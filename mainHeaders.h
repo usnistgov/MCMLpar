@@ -11,7 +11,6 @@
 #include "scoreParam.h"
 #include "setParameters.h"
 #include "specularR.h"
-#include "subFromMax.h"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>

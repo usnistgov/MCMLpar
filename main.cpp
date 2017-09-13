@@ -61,7 +61,8 @@ int main() {
     unsigned int nspawned = stream->spawn_sprng(numProc,&sprngptrarr);
 
     if ( nspawned != numProc ) {
-        cout <<  "Error: " << nspawned << " actual out of " << numProc << " wanted streams spawned! " << endl;
+        cout <<  "Error: " << nspawned << " actual out of " << numProc
+             << " wanted streams spawned!" << endl;
         return 1;
     }
 

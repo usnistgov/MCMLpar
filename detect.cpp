@@ -12,6 +12,10 @@ vector. It adds the particle's weight to the ARS vector at this position. */
     theta- the angle on the detector sphere where the particle intercepts it
     ind- the index in ARS corresponding to theta */
 
+/* Zachary Levine 20170913
+ * Bug fix for case of 
+*/
+
 /******************************************************************************/
 
 int detect( Particle &par, double radius, unsigned int angleDiv, vector<double> &ars ) {
@@ -21,8 +25,19 @@ int detect( Particle &par, double radius, unsigned int angleDiv, vector<double> 
 
     theta = intersect( radius, par );
 
+    if ( theta < 0. ) {
+       theta = 0.;
+    }
+    else if ( theta > PI ) {
+       theta = PI;
+    }
+
     /* Scale and round down the angle to put it into the ARS vector at the correct position */
     ind = int( angleDiv * theta / PI );
+
+    if ( ind>=ars.size() ) {           /* keep ind in range */
+        ind = ars.size()-1;
+    }
 
     /* Add the weight to the ARS vector at the position ind */
     ars.at(ind) += par.weight;
