@@ -47,7 +47,7 @@ mut- inverse interaction length for either absorption or scattering (total)
 B. Input files:
 
 1. input.txt: This file contains all user-defined parameter inputs. The
-simulation inputs are number of particles, number of ARS points, number of
+simulation inputs are number of particles (i.e., photons), number of ARS points, number of
 processors, and radius of detector. For an infinite radius approximation, or if
 the detector radius is unknown, set radius to some large value (such as 10000000).
 The user may need to change number of particles to attain more precise or less
